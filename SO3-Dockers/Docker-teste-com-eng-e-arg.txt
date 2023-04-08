@@ -1,0 +1,7 @@
+Fron Alpine
+# outra forma de indicar o mantenedor em vez do Label.
+MAINTAINER Anderson aluno@email.com
+ARG TEST1=value1
+ENV TEST2=value2
+RUN echo "O ARG vale: $TEST1"
+RUN echo "O ENV vale: $TEST2"

@@ -1,0 +1,49 @@
+# define a imagem base
+FROM ubuntu:18.04
+
+# define o mantenedor da imagem
+LABEL version="1.0"
+LABEL description="NGINX" maintainer="Anderson - fulano@email.com.br"
+
+# Atualiza a imagem com os pacotes
+RUN apt-get update && apt-get upgrade -y
+
+# Instala o lsof, tcpdump, wget e iputils-ping
+RUN apt-get install lsof tcpdump wget -y
+RUN apt-get install iputils-ping -y
+
+# Instala com CMD proftp
+CMD ["apt-get","install","proftp", "-y"]
+
+# Instala o NGINX
+RUN apt-get nginx -y 
+
+# Expoe a porta 80/TCP (pode especificar TCP ou não)
+EXPOSE 80/tcp
+
+# Comando para iniciar o NGINX no Container
+CMD ["nginx", "-g", "daemon off;"]
+
+#ENTRYPOINT para NGINX (executada após a inicialização do container)
+ENTRYPOINT ["/usr/sbin/nginx"]
+
+# Outras execuções com CMD para testes em aula
+CMD touch arquivo-de-boas-vindas
+CMD touch outro-arquivo.txt
+
+# adicionando no docker (container) um arquivo da máquina local.
+ADD arquivo-host arquivo-host-transferido
+ADD https://www.rfc-editor.org/rfc/rfc1.txt  /tmp/
+
+#Copia arquivos (site) da máquina local p/ o Docker com destino ao diretorio /usr/share/nginx/html/:
+COPY ./site/index.html /usr/share/nginx/html/
+# Copia a pasta app
+COPY app /app
+
+# definir o usuário dentro do container, padrão é o root
+USER aluno
+
+#Exemplo de execução em sequencia:
+RUN cd /tmp && mkdir Arquivos && chmod 777 -R Arquivos/
+
+

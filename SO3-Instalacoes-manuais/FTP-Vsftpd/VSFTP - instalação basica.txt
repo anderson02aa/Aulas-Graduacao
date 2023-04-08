@@ -1,0 +1,71 @@
+#########################################
+# Nome: Anderson Alves de Albuquerque
+# Material: suporte para aulas
+# Data: 07/04/2023
+# Rio de Janeiro/RJ - Brasil
+# Sistema Operacional: Linux Debian
+########################################
+
+## virar usuário root
+su -    # ou "sudo su -" dependendo da configuração do Linux
+
+## Servidor de FTP seguro, extremamente rápido e estável:
+#- fácil administração, fácil adição de certificado para criptografar o tráfego, permite chroot de usuários.
+
+## Algumas funcionalidades:
+#- Configuração de IP Virtual;
+#- Usuários Virtuais;
+#- Inicialização Standalone ou via inetd;
+#- Suporte a encriptação via integração via SSL;
+
+## Arquivos de configuração:
+#- /etc/vsftpd/ftpusers: Usuários locais que não possuem permissão para para acesso ao servidor FTP;
+#- /etc/vsftpd/user_lists: Depende do parâmetro userlist_enable no arquivo de configuração. Possui 
+       #lista de usuários e mais a configuração de parâmteros que definem quem pode ou não logar no servidor vsftp;
+#- /etc/vsftpd/chroot_lists: contém a lista de usuários que irão ficar chrooted (não existe por padrão);
+#- /etc/vsftpd/vsftpd.conf: Arquivo de configuração do servidor VSFTP.
+
+## Instalando o servidor vsftpd
+apt-get install install vsftpd  -y
+
+## Iniciando o serviço do servidor FTP
+systemctl restart vsftpd 
+
+## Exemplo ao conectar ao servidor a partir dele mesmo (via localhost - 127.0.0.1). Veja a tela com o pedido de autenticação a seguir:
+#ftp localhost 
+#Connected to localhost (127.0.0.1). 220 (vsFTPd x) 
+#Name (localhost:fred_m): 
+
+#Utilize comandos:
+#- Ao se logar, cheque qual o seu diretório corrente com “pwd”;
+#- Teste a navegação nas pastas dos sistema (/, /home, /etc, /var);
+#- Restrinja o usuário CST03 a se logar no ftp;
+
+######## Detalhes das configurações em /etc/vsftpd/vsftpd.conf (as opções abaixo não são comandos p/serem executados):
+anonymous_enable=YES - Permite acesso anônimo ao servidor. No login, basta 
+       #utilizar o usuário # anonymous. O usuário visualizará a pasta /var/ftp chrooted;
+local_enable=YES - Permite que os usuários locais façam login no servidor;
+write_enable=YES - Permite escrita no servidor;
+local_umask=022 - Máscara padrão no ambiente do servidor ftp. O valor padrão é 077;
+anon_upload_enable=YES # Permite que usuários anonimos façam upload de arquivos para o 
+         #servidor, a pasta deve ter permissão adequada;
+xferlog_enable=YES # Registra em arquivo de log (/var/log/vsftpd.log) os downloads e upload;
+idle_session_timeout=600 - Tempo de inatividade da sessão (segundos), após esse intervalo o usuário será 
+                          #desconectado do servidor
+ftpd_banner=Bem vindo ao FTP da FMN. - Mensagem a ser exibida na tela inicial de autenticação do servidor 
+chroot_list_enable=YES 
+chroot_list_file=/etc/vsftpd/chroot_list - habilita chroot para os usuários listados no arquivo acima. Os 
+                           #usuários serão limitados aos seus diretórios HOME. 
+userlist_enable=YES 
+# Se YES, nega acesso aos usuários listados em /etc/vsftpd/user_list;
+# Se NO, permite apenas acesso aos usuários listados no arquivo acima.
+################# Fim das configurações em /etc/vsftpd/vsftpd.conf 
+
+
+###### Prática - desafio:
+Restrinja o usuário um usuário no chroot;
+Bloqueie todos os demais usuários do sistema a se logarem no FTP;
+Crie um servidor ftp para usuários anônimos, depois permita que eles escrevam na pasta raiz do ftp;
+Se conecte através de um cliente FTP, faça o download (comando get no FTP) de um arquivo para a máquina local, de preferência outra máquina.
+Se conecte através de um cliente FTP, faça o upload (comando put no FTP) de um arquivo da máquina local, de preferência outra máquina.
+

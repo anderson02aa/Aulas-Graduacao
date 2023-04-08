@@ -1,0 +1,36 @@
+#########################################
+# Nome: Anderson Alves de Albuquerque
+# Material: suporte para aulas
+# Data: 08/04/2023
+########################################
+
+## Executar os comandos de instalação e configuração pela conta root;
+su -   # dependedo da condifuração do Linux utilize "sudo su - "
+
+# instalação do servidor apache:
+apt-get install apache2  -y
+
+# Verificar se a porta 80 do servidor está alocada para o Apache:
+lsof –i:80
+
+# Reiniciar o seridor Apache:
+systemctl restart apache2
+
+# Ver status do seridor Apache:
+systemctl status apache2
+
+######## Será ativar o serviço na inicialização no boot, digite:
+systemctl enable apache2
+
+
+########## Alterando a página padrão (default) colocada na instalação do servidor Apache:
+# Como exercício crie uma página nova em “/var/www/html/index.html”, mas antes mova a página original para “/var/www/html/original.html”:
+mv /var/www/html/index.html    /var/www/html/original.html
+
+
+# Agora com editor de texto altere alguma coisa “/var/www/html/index.html”:
+nano /var/www/html/index.html
+# depois acesso pelo navegador Web e veja a alteração realizada.
+
+
+

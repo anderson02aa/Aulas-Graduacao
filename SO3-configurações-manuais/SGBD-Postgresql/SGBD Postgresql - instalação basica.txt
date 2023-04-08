@@ -1,0 +1,83 @@
+#########################################
+# Nome: Anderson Alves de Albuquerque
+# Material: suporte para aulas
+# Data: 07/04/2023
+########################################
+
+## virar usuário root
+su -    # ou "sudo su -" dependendo da configuração do Linux
+
+## Os comandos para remover e instalar o banco de dados são os seguintes: 
+apt-get remove postgresql postgresql-contrib
+apt-get install postgresql postgresql-contrib
+
+## Agora vamos ver se o SGBD está funcionando:
+su - postgres
+
+## Depois, acessar o banco de dados “abrindo” o shell Postgres:
+psql   # veja se depois de apertar a tecla <enter> aparece o prompt "postgres =# " do SGBD
+
+## Utilize "crtl+d" ou "\q" para voltar para o prompt de comandos do Linux.
+## virar usuário root
+su -    # ou "sudo su - " dependendo da configuração do Linux
+
+## Acesse o diretório /etc/postgresql/13/main/ com os comandos abaixo:
+cd   /etc/postgresql/13/main/
+nano pg_hba.conf 
+
+## Adicione a linha abaixo, sem a tralha "#" da 1´coluna, no arquivo pg_hba.conf na linha 92 (o arquivo termina na linha 103). Veja esse local (linha 92) na Figura 1:
+# host  all  all  127.0.0.1/32   trust
+
+## OBS: Essa linha deverá ser inserida no arquivo para permitir o acesso ao banco de dados da máquina local sem senha.
+
+# Para a configuração anterior funcionar é importante reiniciar o PostgreSQL (as novas configurações serão carregadas), com o comando abaixo:
+systemctl restart postgresql
+
+# Para habilitar a inicialização do postgres quando o computador for ligado (iniciado), utilize o comando é:
+systemctl enable postgresql
+
+# virar usuário postgres
+su - postgres
+psql    # veja se depois de apertar a tecla <enter> aparece o prompt "postgres =# " do SGBD
+
+# Para criar um usuário (verificar as permissões) no postgres, utilize o comando abaixo:
+create user NOME-DO-USUARIO superuser inherit createdb createrole;
+
+# Utilize o comando abaixo para alterar a senha do usuário criado (nome do usuário com letras minúsculas):
+alter user NOME-DO-USUARIO password ‘SENHA’;
+## Utilize "crtl+d" ou "\q" para voltar para o prompt de comandos do Linux.
+
+# acessar como usuário root
+su - 
+# testar acesso ao SGBD com o usuário NOME-DO-USUÁRIO, o banco de dados que será acessado é o "posgres"
+psql -U  NOME-DO-USUÁRIO  -h localhost  postgres
+# o prompt "postgres=# " do SGBD irá surgir:
+
+# crie um databse:
+create database escola;
+## Utilize "crtl+d" ou "\q" para voltar para o prompt de comandos do Linux.
+
+# testar acesso ao SGBD com o usuário NOME-DO-USUÁRIO, o banco de dados que será acessado é o "escola" criado acido com "create database escola;".
+psql –U NOME-DO-USUARIO –h   localhost   escola;
+# irá aparecer o prompt "escola=# "
+
+########### Testando o banco de dados escola:
+CREATE TABLE cidades (  nome varchar(80), sigla varchar(2), DDD varchar(3) );
+INSERT INTO cidades VALUES ('Rio de Janeiro', 'RJ', '021');
+INSERT INTO cidades VALUES ('Sao Paulo', 'SP', '011');
+INSERT INTO cidades VALUES ('Minas Gerais', 'MG', '031');
+INSERT INTO cidades VALUES ('Minha cidade', 'RJ', '0XX');
+SELECT * FROM cidades;
+
+# mais testes:
+CREATE TABLE cidades (  nome varchar(80), sigla varchar(2), DDD varchar(3) );
+INSERT INTO cidades VALUES ('Rio de Janeiro', 'RJ', '021’);
+INSERT INTO cidades VALUES ('Sao Paulo', 'SP', '011’);
+INSERT INTO cidades VALUES ('Minas Gerais', 'MG', '031’);
+INSERT INTO cidades VALUES ('Minha cidade', 'RJ', '0XX’);
+SELECT * FROM cidades;
+
+
+
+
+

@@ -1,0 +1,42 @@
+#########################################
+# Nome: Anderson Alves de Albuquerque
+# Material: suporte para aulas
+# Data: 07/04/2023
+########################################
+
+## Executar os comandos de instalação e configuração pela conta root;
+su -   # dependedo da condifuração do Linux utilize "sudo su - "
+
+## Instalar o apache2 :
+apt-get install apache2 -y
+
+## Instalar o PHP para apache2:
+apt-get install php libapache2-mod-php -y
+
+## Instalar o PHPMYADMIN:
+apt-get install phpmyadmin  -y
+
+## Escolha Apache2 na 1´tela que contém 2 opções.
+# Configurar com “dbconfig-common” e escolher "Sim":
+Escolha “Yes”
+
+
+## Na tela seguinte para configurar uma senah, digite a senha para o PHPMYADMIN:
+# Depois escolha “OK”;
+# Em seguida pressione a tecla “Enter”. 
+
+## Na tela seguinte, confirme a senha e escolha “OK”:
+# Em seguida pressione a tecla “Enter”. 
+
+## Reiniciar o apache2 para ler as novas configurações:
+systemctl restart apache2
+
+## Pelo navegador de algum computador acesse o PHPMyAdmin pela URL:
+ http://<IP DO SERVIDOR>/phpmyadmin/
+
+# Irá carregar uma página Web:
+# Utilize o usuário phpmyadmin
+# Utilize a senha que você digitou na instalação do Phpmyadmin.
+
+
+## Agora você poderá utilizar o PHPMyadmin para operar o SGBD MariaDB pela interface Web.

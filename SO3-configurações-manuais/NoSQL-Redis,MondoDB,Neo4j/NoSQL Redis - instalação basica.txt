@@ -1,0 +1,280 @@
+#########################################
+# Nome: Anderson Alves de Albuquerque
+# Material: suporte para aulas
+# Data: 08/04/2023
+########################################
+
+@ Instalação baseada em https://redis.io/docs/getting-started/installation/install-redis-on-linux/ 
+# su -
+# apt-get update
+# apt install lsb-release gpg curl  -y
+
+# set PATH=$PATH:/usr/bin/:/usr/sbin/
+# curl -fsSL https://packages.redis.io/gpg | gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
+
+# echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" |   tee /etc/apt/sources.list.d/redis.list
+
+
+# apt-get update
+# apt-get install redis –y
+
+
+@ Configurar para iniciar em todas as interfaces:
+Acessar /etc/redis/redis.conf vi editor nano
+	# nano /etc/redis/redis.conf 
+
+
+@ Apenas se precisar acessar o Redis de uma máquina diferente:
+Retirar o comentário da linha 72 contendo “bind * -::*”, isso faz o Redis “escutar” por todas as interfaces:
+bind * -::*
+
+
+@ Reiniciar o Redis:
+	# systemctl restart redis-server
+
+@ Habilitar o Redis:
+	# systemctl enable redis-server
+
+@ Ver o status do Redis:
+# systemctl status redis-server
+
+@ Ver se o Redis está em execução e a sua porta TCP:
+	# lsof -i | grep redis
+redis-ser 716    redis    6u  IPv4  14568      0t0  TCP localhost:redis (LISTEN)
+redis-ser 716    redis    7u  IPv6  14569      0t0  TCP localhost:redis (LISTEN)
+
+@ Entrar no Redis para digitar comandos abaixo. observe que o prompt de comandos do Redis é "127.0.0.1:6379>  " como mostrado a seguir.
+root@debian:~# su  -
+root@debian:~# redis-cli
+
+127.0.0.1:6379> 
+
+@ Cria chave ”nome” contendo o valor ”anderson”:
+127.0.0.1:6379> set 'nome' "anderson"
+OK
+
+@ Busca o valor da chave ”nome”:
+127.0.0.1:6379> get nome
+"anderson"
+
+@ Modifica o valor da chave nome:
+127.0.0.1:6379> set 'nome' "anderson1"
+OK
+127.0.0.1:6379> get nome
+"anderson1"
+
+@ Cria chave ”idade” contendo o valor ”29”, logo depois busca esse valor com o ”get”:
+127.0.0.1:6379> set 'idade' 29
+OK
+127.0.0.1:6379> get idade
+"29"
+
+@ Buscando uma chave que não existe:
+127.0.0.1:6379> get nome-errado
+(nil)
+127.0.0.1:6379>
+
+@ Apagando a chave nome:
+127.0.0.1:6379> del nome
+(integer) 1
+127.0.0.1:6379>
+
+@ Buscando uma chave ”nome” que foi apagado, ou seja, não existe mais:
+127.0.0.1:6379> get nome
+(nil)
+127.0.0.1:6379>
+
+@ Verificar as chaves existentes:
+127.0.0.1:6379> keys *
+1) "idade"
+127.0.0.1:6379> set "estado" rj
+OK
+127.0.0.1:6379> keys *
+1) "estado"
+2) "idade"
+
+@ Inserindo múltiplas chaves e valores de uma vez:
+127.0.0.1:6379> mset chave1 valor1 chave2 valor2
+OK
+127.0.0.1:6379> keys *
+1) "chave1"
+2) "estado"
+3) "chave2"
+4) "idade"
+127.0.0.1:6379>
+
+@ Obtendo valor de múltiplas chaves de uma vez (observe que uma das chaves foi digitada errada e seu valor é retornado como nulo):
+127.0.0.1:6379> mget chave1 chave2  chave-errada
+1) "valor1"
+2) "valor2"
+3) (nil)
+127.0.0.1:6379>
+
+@ Limpa os valores e chaves:
+127.0.0.1:6379> Flushall
+OK
+127.0.0.1:6379>
+
+@ Lista:
+127.0.0.1:6379> lpush chave1 RJ MG SP
+(integer) 3
+127.0.0.1:6379> keys *
+1) "chave1"
+
+127.0.0.1:6379> get chave1
+(error) WRONGTYPE Operation against a key holding the wrong kind of value
+
+127.0.0.1:6379> lrange chave1 0 -1
+1) "SP"
+2) "MG"
+3) "RJ"
+127.0.0.1:6379>
+
+@ Adicionando um elemento na lista:
+127.0.0.1:6379> Rpush chave1 AM
+(integer) 4
+
+127.0.0.1:6379> Lrange chave1 0 -1
+1) "SP"
+2) "MG"
+3) "RJ"
+4) "AM"
+127.0.0.1:6379>
+
+@ Limpa os valores e chaves:
+127.0.0.1:6379> Flushall
+OK
+127.0.0.1:6379>
+
+@ Criar conjuntos (set) com ”Sadd”:
+Elementos repetidos são adicionados uma vez apenas:
+127.0.0.1:6379> Sadd chave9 valor1 valor2 valor3 valor2
+(integer) 3
+127.0.0.1:6379> smembers chave9
+1) "valor3"
+2) "valor2"
+3) "valor1"
+127.0.0.1:6379>
+Limpa os valores e chaves:
+127.0.0.1:6379> Flushall
+OK
+127.0.0.1:6379>
+
+@ Utilizar conjuntos para pontuar jogadores:
+	@Adicionando no conjunto pontos a jogadora Maria com 1 ponto:
+127.0.0.1:6379> zadd pontos 1 maria
+(integer) 1
+127.0.0.1:6379> zrange pontos 0 -1
+1) "maria"
+
+	@Adicionando mais 3 jogadores no conjunto pontos:
+127.0.0.1:6379> zadd pontos 2 joao 3 fulano 9 ze
+(integer) 3
+127.0.0.1:6379>
+
+	@Listando em ordem (menor valor para o maior valor):
+127.0.0.1:6379> zrange pontos 0 -1
+1) "maria"
+2) "joao"
+3) "fulano"
+4) "ze”
+127.0.0.1:6379>
+
+	@Listando em ordem contrário (maior valor para o menor valor):
+127.0.0.1:6379> zrevrange pontos 0 -1
+1) "ze"
+2) "fulano"
+3) "joao"
+4) "maria"
+127.0.0.1:6379>
+
+	@Limpa os valores e chaves:
+127.0.0.1:6379> Flushall
+OK
+127.0.0.1:6379>
+
+	@Conjunto com Hash:
+127.0.0.1:6379> Hmset professor matematica maria fisica  mario
+OK
+127.0.0.1:6379> hmget professor fisica
+1) "mario"
+127.0.0.1:6379> hmget professor matematica
+1) "maria“
+127.0.0.1:6379>
+
+@ Expiração (expire) de sessão:
+127.0.0.1:6379> hmset session:1 name anderson  user fulano
+OK
+127.0.0.1:6379> keys *
+1) "session:1"
+127.0.0.1:6379> hmget session:1 name
+1) "anderson"
+127.0.0.1:6379> expire session:1  25
+(integer) 1
+127.0.0.1:6379> TTL session:1
+(integer) 21
+127.0.0.1:6379>  hmget session:1 name
+1) "anderson"
+127.0.0.1:6379>  TTL session:1
+(integer) 15
+127.0.0.1:6379>  hmget session:1 name
+1) "anderson"
+127.0.0.1:6379> TTL session:1
+(integer) 5
+127.0.0.1:6379> TTL session:1
+(integer) 1
+
+127.0.0.1:6379> TTL session:1
+(integer) -2
+
+127.0.0.1:6379> hmget session:1 name
+1) (nil)
+
+@ Sair do Redis:
+127.0.0.1:6379> exit
+root@debian:~#
+
+@ Veja que o conjunto não é perdido ao sair e retornar para o Redis:
+127.0.0.1:6379> zadd pontos 2 joao 3 fulano 9 ze
+(integer) 3
+127.0.0.1:6379> exit
+
+root@debian:~# redis-cli
+
+127.0.0.1:6379> zrange pontos 0 -1
+1) "joao"
+2) "fulano"
+3) "ze"
+127.0.0.1:6379>
+
+@ Veja que a chave não é perdida ao sair e retornar para o Redis:
+127.0.0.1:6379>  mset chave1 valor1 chave2 valor2
+OK
+127.0.0.1:6379> keys *
+1) "chave1"
+2) "chave2"
+3) "pontos"
+127.0.0.1:6379> exit
+
+root@debian:~# redis-cli
+
+127.0.0.1:6379> keys *
+1) "chave1"
+2) "chave2"
+3) "pontos"
+127.0.0.1:6379>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

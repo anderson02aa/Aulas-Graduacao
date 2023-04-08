@@ -1,0 +1,118 @@
+#########################################
+# Nome: Anderson Alves de Albuquerque
+# Material: suporte para aulas
+# Data: 07/04/2023
+########################################
+
+## Executar os comandos de instalação e configuração pela conta root;
+su -   # dependedo da condifuração do Linux utilize "sudo su - "
+
+## Os comandos para remover e instalar o banco de dados são os seguintes: 
+apt-get remove mariadb-server
+apt-get install mariadb-server   -y 
+
+## Agora de uma olhada no diretório que armazena os arquivos de configuração:
+cd /etc/mysql/
+ls –la
+
+## Veja se o Mariadb está ativo:
+systemctl status mariadb
+
+## Se o MariaDB não estiver ativo:
+systemctl restart mariadb
+
+## Executar o programa de configuração e preencher o questionário (tudo foi respondido com "y"):
+mysql_secure_installation
+
+Switch to unix_socket authentication [Y/n] n
+
+Change the root password? [Y/n] n
+
+Remove anonymous users? [Y/n] y
+
+Disallow root login remotely? [Y/n] y
+
+Remove test database and access to it? [Y/n] y
+
+Reload privilege tables now? [Y/n] y
+
+
+## Pela conta root conecte no MariaDB:
+su -  # dependedo da condifuração do Linux utilize "sudo su - "
+# conecta no MariaDB o prompt do root "#":
+mysql
+# Ao conectar no MariaDB irá aparecer o seguinte prompt: MariaDB [(none)]>
+# Toda vez que aparecer “MariaDB [(none)]> ” indica que você está dentro do MariaDB.
+
+## Digite comandos dentro do SGBD Maria DB depois do prompt de comandos "MariaDB [(none)]> ":
+# O comando "show grants" permite ver as permissões de acesso:
+show grants for root@localhost; 
+
+# Permite ver a lista de usuários (tente entender a configuração mostrada):
+select user,host,password from mysql.user; 
+
+# Permite ver os bancos de dados existentes:
+show databases;
+
+################### Testando o SGBD:
+## Pela conta root conecte no MariaDB:
+su -  
+# conecta no MariaDB o prompt do root "#":
+mysql     
+# Após aparecer o "MariaDB [(none)]> ”:
+create database escola;
+use escola
+CREATE TABLE cidades (  nome varchar(80), sigla varchar(2), DDD varchar(3) ); # cria tabela
+INSERT INTO cidades VALUES ('Rio de Janeiro', 'RJ', '021');   # inserir registro
+INSERT INTO cidades VALUES ('Sao Paulo', 'SP', '011');        # inserir registro
+INSERT INTO cidades VALUES ('Minas Gerais', 'MG', '031');     # inserir registro
+INSERT INTO cidades VALUES ('Minha cidade', 'RJ', '0XX');     # inserir registro
+SELECT * FROM cidades;            # listar registros na tabela cidades.
+show databases;                   # mostrar os BD existentes.
+exit               # sair e voltar para o Linux.
+
+################### Mais testes com o SGBD:
+## Pela conta root conecte no MariaDB:
+su - 
+# conecta no MariaDB o prompt do root "#":
+mysql     
+# Após aparecer o "MariaDB [(none)]> ”:
+mysql
+
+############### Continuar as configurações:
+## Pela conta root conecte no MariaDB:
+su -  
+## Para o MariaDB:
+systemctl stop mariadb
+
+## Remover as estruturas e dados do MariaDB:
+rm -rf /var/lib/mysql/*
+
+## Instalar as estruturas e dados do MariaDB:
+mysql_install_db --datadir=/var/lib/mysql --user=mysql
+
+## Reinicializar o SGBD:
+systemctl start mariadb
+
+## Verifique o status do MariaBD:
+systemctl status mariadb
+
+################### Mais testes com o SGBD:
+## Pela conta root conecte no MariaDB:
+su -  
+# conecta no MariaDB o prompt do root "#":
+mysql     
+# Após aparecer o "MariaDB [(none)]> ”:
+create database escola;
+use escola
+CREATE TABLE cidades (  nome varchar(80), sigla varchar(2), DDD varchar(3) ); # cria tabela
+INSERT INTO cidades VALUES ('Rio de Janeiro', 'RJ', '021');   # inserir registro
+INSERT INTO cidades VALUES ('Sao Paulo', 'SP', '011');        # inserir registro
+INSERT INTO cidades VALUES ('Minas Gerais', 'MG', '031');     # inserir registro
+INSERT INTO cidades VALUES ('PB', 'Paraiba', '083');     # inserir registro
+INSERT INTO cidades VALUES ('Alagoas', 'RJ', '0XX');     # inserir registro
+INSERT INTO cidades VALUES ('Brasilia', 'RJ', '061');     # inserir registro
+INSERT INTO cidades VALUES ('Minha cidade', 'RJ', '082');     # inserir registroSELECT * FROM cidades;            # listar registros na tabela cidades.
+show databases;                   # mostrar os BD existentes.
+exit               # sair e voltar para o Linux.
+

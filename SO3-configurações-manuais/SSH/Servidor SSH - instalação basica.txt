@@ -1,0 +1,55 @@
+#########################################
+# Nome: Anderson Alves de Albuquerque
+# Material: suporte para aulas
+# Data: 08/04/2023
+########################################
+
+## Executar os comandos de instalação e configuração pela conta root;
+su -   # dependedo da condifuração do Linux utilize "sudo su - "
+
+## Remova o SSH existente:
+apt-get remove openssh-server   -y
+
+## Instalar o SSHD:
+apt-get install openssh-server   -y
+
+## Verificar o status do SSHD:
+systemctl status ssh
+
+## Se o SSH não estiver ativo:
+systemctl restart ssh
+
+## Habilitar o SSH para ser executado na inicialização do sistema operacional:
+systemctl enable ssh
+
+
+## Anote o enderço IP do servidor (esse IP aparece em uma das linhas inet e não na inet6, não escolha a linha inet que  tem o endereço IP 127.0.0.1):
+ip a
+
+
+############ Acessar o servidor SSH via Windows com o programa Putty.exe
+## Download do cliente SSH para Windows chamado Putty:
+# - Baixe o Putty para a pasta “Downloads” do seu computador com Windows.
+# - Acesse no Windows pelo navegador Web: https://www.putty.org/:
+
+## Depois:
+# - Clique em “Download Putty”:
+# - Então, baixe o arquivo "putty.exe" no quadro "Alternative binary files", que está no link na linha "64-bit x86:“.
+# - Coloque esse “putty.exe” na pasta “Downloads” do Windows.
+
+## Agora utilize o Putty para acessar o servidor:
+# - execute o programa putty.exe
+# - Em "Session" preencha o IP do servidor em "Host Name (or IP Address)" e em "Port" preencher 22.
+# - Em "Connection type:" selecione SSH.
+# - Clique no botão "save" para gravar esses dados.
+# - Depois, clique no botão "Open" para conexão no servidor.
+# - no primeiro acesso confirme a troca de certificados clicando no botão "Accept".
+# - Agora entre como usuário (precisa ser diferente do usuário root) e depois coloque a senha.
+
+
+
+
+
+
+
+

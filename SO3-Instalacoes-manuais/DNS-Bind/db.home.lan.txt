@@ -1,0 +1,18 @@
+;Arquivo:/etc/bind/db.home.lan
+$TTL    3D
+@ IN  SOA  ns.home.lan.  root.home.lan. (
+                        2019111901 ; serial
+                        8H         ; refresh
+                        2H         ; retry
+                        4W         ; expire
+                        1D )       ; minimum
+                NS      dns     ; DNS primário
+                NS      dns2    ; DNS secundário
+                MX      10 mail ; servidor primário de e-mail
+;;home.lan.  TXT v=spf1 mx -all
+dns             A  192.168.1.100
+dns2            A  192.168.1.101
+mail.home.lan.  A  192.168.1.100
+roteador  A  192.168.1.1
+ns2   CNAME dns.home.lan.
+mail2 CNAME mail.home.lan.

@@ -1,0 +1,15 @@
+; Criar o Arquivo /etc/bind/db.1.168.192
+$TTL    3D
+@       IN      SOA     ns.home.lan.    root.home.lan. (
+	   2019111801 ; serial
+	   8H         ; refresh
+   	   2H         ; retry
+	   4W         ; expire
+  	   1D )       ; minimum
+        NS 	dns.home.lan. ; DNS primário
+        NS 	dns2.home.lan. ; DNS secundário
+100             PTR     server.home.lan.
+100             PTR     ns.home.lan.
+100             PTR     mail.home.lan.
+101             PTR     dns2.home.lan.
+1               PTR     roteador.home.lan.

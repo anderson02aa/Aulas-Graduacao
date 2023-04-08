@@ -1,0 +1,12 @@
+// Adicionar no arquivo /etc/bind/named.conf.local
+
+zone "home.lan" {
+    type master;
+    file "/etc/bind/db.home.lan";
+};
+
+zone "1.168.192.in-addr.arpa" {
+    type master;
+    file "/etc/bind/db.1.168.192";
+};
+

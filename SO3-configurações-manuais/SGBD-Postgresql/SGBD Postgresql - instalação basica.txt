@@ -2,6 +2,7 @@
 # Nome: Anderson Alves de Albuquerque
 # Material: suporte para aulas
 # Data: 07/04/2023
+# Rio de Janeiro/RJ - Brasil
 ########################################
 
 ## virar usuário root

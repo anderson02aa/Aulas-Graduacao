@@ -2,6 +2,7 @@
 # Nome: Anderson Alves de Albuquerque
 # Material: suporte para aulas
 # Data: 08/04/2023
+# Rio de Janeiro/RJ - Brasil
 ########################################
 
 ## Executar os comandos de instalação e configuração pela conta root;
@@ -45,11 +46,4 @@ ip a
 # - Depois, clique no botão "Open" para conexão no servidor.
 # - no primeiro acesso confirme a troca de certificados clicando no botão "Accept".
 # - Agora entre como usuário (precisa ser diferente do usuário root) e depois coloque a senha.
-
-
-
-
-
-
-
 

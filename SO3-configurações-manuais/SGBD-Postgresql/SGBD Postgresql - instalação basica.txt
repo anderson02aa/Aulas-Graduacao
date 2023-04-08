@@ -3,6 +3,7 @@
 # Material: suporte para aulas
 # Data: 07/04/2023
 # Rio de Janeiro/RJ - Brasil
+# Sistema Operacional: Linux Debian
 ########################################
 
 ## virar usuário root

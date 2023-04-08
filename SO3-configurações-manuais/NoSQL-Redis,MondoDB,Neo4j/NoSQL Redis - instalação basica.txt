@@ -3,6 +3,7 @@
 # Material: suporte para aulas
 # Data: 08/04/2023
 # Rio de Janeiro/RJ - Brasil
+# Sistema Operacional: Linux Debian 
 ########################################
 
 @ Instalação baseada em https://redis.io/docs/getting-started/installation/install-redis-on-linux/ 

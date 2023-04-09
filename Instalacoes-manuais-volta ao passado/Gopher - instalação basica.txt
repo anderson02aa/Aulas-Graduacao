@@ -5,8 +5,8 @@
 # Rio de Janeiro/RJ - Brasil
 # Sistema Operacional: Linux Debian
 ########################################
-
-# utilização:
+#
+# Utilização:
 # - como ele é "leve" é uma boa opção para utilizar no Arduino ou Rasberry.
 # - páginas mais simples que são ótimas para utilizar no Arduino ou Rasberry.
 # - exemplo: gopher://gopher.floodgap.com/  ou a lista em http://penta2.ufrgs.br/rc952/trab1/gopher-servers.html 

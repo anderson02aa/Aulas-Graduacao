@@ -35,7 +35,7 @@ CMD touch outro-arquivo.txt
 ADD arquivo-host arquivo-host-transferido
 ADD https://www.rfc-editor.org/rfc/rfc1.txt  /tmp/
 
-#Copia arquivos (site) da máquina local p/ o Docker com destino ao diretorio /usr/share/nginx/html/:
+#Copia arquivos da máquina local p/ o Docker com destino ao diretorio /usr/share/nginx/html/:
 COPY ./site/index.html /usr/share/nginx/html/
 # Copia a pasta app
 COPY app /app

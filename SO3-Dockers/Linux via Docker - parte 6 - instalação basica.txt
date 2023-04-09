@@ -1,0 +1,24 @@
+
+#########################################
+# Nome: Anderson Alves de Albuquerque
+# Material: suporte para aulas
+# Data: 08/04/2023
+# Rio de Janeiro/RJ - Brasil
+# Sistema Operacional: Linux Fedora
+########################################
+@ Acessar como root:
+sudo su -  # ou em alguns casos: su -
+ 
+@ crie um diretório de trabalho chamado "work":
+mkdir work
+
+@ Crie um arquivo dockerfile no diretório de trabalho "work" com o seguinte conteúdo:
+From Debian  # instala o Linux Debian
+MAINTAINER Anderson email@email.com.br  # adiciona o mantenedor.
+ARG TEST1=value1
+ENV TEST2=value2
+RUN echo "O ARG vale: $TEST1"
+RUN echo "O ENV vale: $TEST2"
+
+
+

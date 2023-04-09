@@ -1,0 +1,111 @@
+#########################################
+# Nome: Anderson Alves de Albuquerque
+# Material: suporte para aulas
+# Data: 09/04/2023
+# Rio de Janeiro/RJ - Brasil
+# Sistema Operacional: Linux Fedora
+########################################
+@ Acessar como root:
+sudo su -  # ou em alguns casos: su -
+
+@ instale a linguagem go, ela será necessário para compilar o programa de teste.
+yum install go -y
+
+@ crie um diretório de trabalho chamado "work":
+mkdir working
+
+@ Crie um arquivo Dockerfile no diretório de trabalho "working" com o seguinte conteúdo:
+FROM gcc as builder
+WORKDIR /app
+COPY teste.c  /app
+RUN gcc  -o teste teste.c 
+ENTRYPOINT ./teste
+
+@ crie no mesmo diretório o teste.c com o seguinte conteúdo:
+##################################
+#include <stdio.h>
+void main()
+{
+   float Numero;
+   Numero = -2.5;
+   printf("1234567890\n");
+   printf("%7f\n", Numero);
+   printf("%7.0f\n", Numero);
+   printf("%7.3f\n", Numero);
+   printf("%8.3f\n", Numero);
+   printf("%9.3f\n", Numero);
+   printf("\n");
+   printf("%8.4f\n", Numero);
+   printf("%8.1f\n", Numero);
+   printf("%6.12f\n", Numero);
+}
+#################################
+
+@ executar docker:
+docker build -t working/hello:1.0 .
+
+@ verificar a imagem criada com a versão 1.0:
+docker image ls
+
+REPOSITORY          TAG                 IMAGE ID            CREATED              SIZE
+working/hello   1.0       66c846597388   3 minutes ago        1.27GB
+
+# Note: a imagem ficou com o tamanho de "812MB", o que para um contêiner é muito ruim.
+
+@ criar outro arquivo Dockfiler no diretório working com adição de mais um bloco encabeçado pela linha com "From FROM gcc as builder
+FROM gcc as builder
+WORKDIR /app
+COPY teste.c  /app
+RUN gcc  -o teste teste.c 
+ENTRYPOINT ./teste
+
+FROM debian:latest
+WORKDIR /app
+COPY --from=builder /app/teste /app
+ENTRYPOINT ./teste
+
+@ executar docker:
+docker build -t working/hello:2.0 .
+
+@ verificar as imagens criadas:
+docker images l
+
+REPOSITORY      TAG       IMAGE ID       CREATED              SIZE
+working/hello   2.0       0511d2d21f24   About a minute ago   124MB
+working/hello   1.0       66c846597388   3 minutes ago        1.27GB
+
+# Perceber que as imagens "working/hello" possuem tamanhos totalmente diferentes:
+working/hello 1.0 - 1.27 MB
+working/hello 2.0 - 124 MB
+
+@ Executar os 2 contêineres utilizando as duas imagens:
+=> docker container run working/hello:1.0
+1234567890
+-2.500000
+     -2
+ -2.500
+  -2.500
+   -2.500
+
+ -2.5000
+    -2.5
+-2.500000000000
+
+=> docker container run working/hello:2.0
+1234567890
+-2.500000
+     -2
+ -2.500
+  -2.500
+   -2.500
+
+ -2.5000
+    -2.5
+-2.500000000000
+
+
+@ Ambos fazem a mesma coisa, porém, o contêiner 2 está bem mais otimizado e mais enxuto em seu tamanho o que é ideal para um contêiner.
+
+@ liberar os container e imagens:
+docker rm $(docker ps -a -q); docker rmi $(docker images -a -q) -f
+

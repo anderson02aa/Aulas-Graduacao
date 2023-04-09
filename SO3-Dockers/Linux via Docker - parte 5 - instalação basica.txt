@@ -1,0 +1,27 @@
+
+#########################################
+# Nome: Anderson Alves de Albuquerque
+# Material: suporte para aulas
+# Data: 08/04/2023
+# Rio de Janeiro/RJ - Brasil
+# Sistema Operacional: Linux Fedora
+########################################
+@ Acessar como root:
+sudo su -  # ou em alguns casos: su -
+ 
+@ crie um diretório de trabalho chamado "work":
+mkdir work
+
+@ Crie um arquivo dockerfile no diretório de trabalho "work" com o seguinte conteúdo:
+From Mint   # instala o Linux Mint.
+MAINTAINER Anderson email@email.com.br  # adiciona o mantenedor.
+LABEL version="1.0" # adciciona versão
+LABEL description="Linux Debian" maintainer="Anderson - fulano@email.com.br" # adciona email de contato
+
+RUN apt-get update && apt-get upgrade -y # Atualiza a imagem com os pacotes
+
+RUN apt-get install iputils-ping -y # Instala o iputils-ping
+RUN apt-get install nano -y  # Instala o editor de texto nano
+RUN apt-get install lsof tcpdump wget -y # Instala o tcpdump e wget
+
+

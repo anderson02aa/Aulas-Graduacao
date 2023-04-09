@@ -1,0 +1,23 @@
+
+#########################################
+# Nome: Anderson Alves de Albuquerque
+# Material: suporte para aulas
+# Data: 08/04/2023
+# Rio de Janeiro/RJ - Brasil
+# Sistema Operacional: Linux Fedora
+########################################
+@ Acessar como root:
+sudo su -  # ou em alguns casos: su -
+ 
+@ crie um diretório de trabalho chamado "work":
+mkdir work
+
+@ Crie um arquivo dockerfile no diretório de trabalho "work" com o seguinte conteúdo:
+From Ubuntu:lastest #Instala o Ubuntu, porém pega a última versão por causa do "latest".
+MAINTAINER Anderson email@email.com.br  # adiciona o mantenedor.
+LABEL version="1.0" # adciciona versão.
+LABEL description="Linux Debian" maintainer="Anderson - fulano@email.com.br" # adciona email de contato.
+
+RUN apt-get update && apt-get upgrade -y # Atualiza a imagem com os pacotes.
+
+

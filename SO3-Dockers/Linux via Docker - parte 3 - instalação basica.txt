@@ -1,0 +1,27 @@
+
+#########################################
+# Nome: Anderson Alves de Albuquerque
+# Material: suporte para aulas
+# Data: 08/04/2023
+# Rio de Janeiro/RJ - Brasil
+# Sistema Operacional: Linux Fedora
+########################################
+@ Acessar como root:
+sudo su -  # ou em alguns casos: su -
+ 
+@ crie um diretório de trabalho chamado "work":
+mkdir work
+
+@ Crie um arquivo dockerfile no diretório de trabalho "work" com o seguinte conteúdo:
+From Ubuntu:23.04 #Instalar: Ubuntu 23.04 (veja se a versão existe em https://hub.docker.com/_/ubuntu)
+MAINTAINER Anderson email@email.com.br
+LABEL version="1.0"
+LABEL description="Linux Debian" maintainer="Anderson - fulano@email.com.br"
+# Atualiza a imagem com os pacotes
+RUN apt-get update && apt-get upgrade -y
+# Instala o lsof, tcpdump, wget e iputils-ping
+RUN apt-get install iputils-ping -y
+RUN apt-get install nano -y
+RUN apt-get install lsof tcpdump wget -y
+
+

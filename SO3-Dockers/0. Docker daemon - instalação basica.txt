@@ -1,0 +1,32 @@
+
+#########################################
+# Nome: Anderson Alves de Albuquerque
+# Material: suporte para aulas
+# Data: 08/04/2023
+# Rio de Janeiro/RJ - Brasil
+# Sistema Operacional: Linux Fedora
+########################################
+@ Acessar como root:
+sudo su -  # ou em alguns casos: su -
+
+@ Utilize Linux Fedora e acesse como root:
+dnf -y install dnf-plugins-core
+dnf config-manager --add-repo  https://download.docker.com/linux/fedora/docker-ce.repo
+dnf list docker-ce  --showduplicates | sort -r
+
+@ colocando o docker para funcionar:
+systemctl start docker
+
+# ativando um container de exemplo
+docker run hello-world
+
+# habilitando o docker para ser executado após reiniciar o Linux Fedora:
+systemctl enable docker
+
+# mostrar status:
+systemctl status docker
+
+@ listagem dos containers em execução:
+docker run hello-world
+
+

@@ -10,6 +10,7 @@
 # - como ele é "leve" é uma boa opção para utilizar no Arduino ou Rasberry.
 # - páginas mais simples que são ótimas para utilizar no Arduino ou Rasberry.
 # - exemplo: gopher://gopher.floodgap.com/  ou a lista em http://penta2.ufrgs.br/rc952/trab1/gopher-servers.html 
+#- porta 70/TCP
 
 ## virar usuário root
 su -    # ou "sudo su -" dependendo da configuração do Linux

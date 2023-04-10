@@ -1,0 +1,46 @@
+#########################################
+# Nome: Anderson Alves de Albuquerque
+# Material: suporte para aulas
+# Data: 09/04/2023
+# Rio de Janeiro/RJ - Brasil
+# Sistema Operacional: Linux Debian
+########################################
+#
+# Utilização:
+#- Em hardware como Arduino ou Rasberry.
+#- Utilizado para transporte de arquivos para equipamentos de rede. 
+#- porta 69/UDP
+
+## virar usuário root
+su -    # ou "sudo su -" dependendo da configuração do Linux
+
+# atualização
+apt-get -y install aptitude
+aptitude update
+
+# instalação do tftpd
+aptitude -y install tftpd 
+
+# editar o /etc/default/tftpd-hpa:
+TFTP_USERNAME="tftp"        # usuário que irá exscutar o server tftp.
+TFTP_DIRECTORY="/srv/tftp"          # Diretório onde ficaram os arquivos
+TFTP_ADDRESS=":69"                  # Endereço IP e/ou porta do TFTP que é a 69 por padrão.
+TFTP_OPTIONS="--secure --create"    # a opção create permite fazer upload de arquivos.
+
+# em "TFTP_ADDRESS" em vez de colcoar ":69" pode colocar o IP entre aspas como é mostrado a seguir:
+TFTP_ADDRESS="ENDEREÇO IP do Server TFTP" # para saber o IP digite "hostname -I"
+
+# permissão do diretório /srv/tftp:
+chown tftp:tftp /srv/tftp
+
+# reiniciar para ler as novas configurações:
+systemctl restart tftpd-hpa
+
+
+
+===================== Do cliente:
+# para se conectar do servidor no cliente:
+tftp  ENDEREçO-IP
+
+# depois utilize os comandos get e put para as transferências de arquivos.
+

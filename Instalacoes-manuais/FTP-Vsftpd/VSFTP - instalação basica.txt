@@ -41,6 +41,33 @@ systemctl restart vsftpd
 #- Teste a navegação nas pastas dos sistema (/, /home, /etc, /var);
 #- Restrinja o usuário CST03 a se logar no ftp;
 
+# No arquivo de configuração: /etc/vsftpd/vsftpd.conf
+anonymous_enable=NO # sem acesso de anonymous
+local_enable=YES  # habilita acesso aos usuários locais
+write_enable=YES   # habilita escrita dos usuários no diretórios
+chroot_local_user=YES  # habilita chroot
+user_sub_token=$USER  # usado quando o chroot_local_user está Yes, $USER define a variável para os usuário
+local_root=/home/$USER/ftp # Local do cheroot chroot_local_user. O /home/$USER será utilizado pelos usuários, 
+                            #sendo que cada um tem acesso ao seu diretório home por causa de $USER.
+pasv_min_port=40000 #limita a porta entre 4000-4100 para liberação no firewall quando for utilizada conexão passive FTP.
+pasv_max_port=41000 #limita a porta entre 4000-4100 para liberação no firewall quando for utilizada conexão passive FTP.
+userlist_file=/etc/vsftpd/user_list # lista de usuários com acessos permitidos se “userlist_enable=YES”.
+userlist_deny=NO # habilita ou não lista de usuário negados.
+
+## após alterar a configuração: 
+systemctl restart vsftpd
+
+## crie um usuário chamado "fulano" e depois faça o seguinte:
+#adcicione fulano em etc/vsftpd/user_list
+mkdir -p /home/fulano/ftp/upload
+chmod 550 /home/fulano/ftp
+chmod 750 /home/fulano/ftp/upload
+chown -R darsh: /home/fulano/ftp
+usermod -s /sbin/nologin darsh # caso o usuário fulano não possa acessar via SSH ou do terminal da máquina.
+
+
+
+###############################################
 ######## Detalhes das configurações em /etc/vsftpd/vsftpd.conf (as opções abaixo não são comandos p/serem executados):
 anonymous_enable=YES - Permite acesso anônimo ao servidor. No login, basta 
        #utilizar o usuário # anonymous. O usuário visualizará a pasta /var/ftp chrooted;

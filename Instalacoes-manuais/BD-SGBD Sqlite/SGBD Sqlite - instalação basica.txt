@@ -1,0 +1,123 @@
+#########################################
+# Nome: Anderson Alves de Albuquerque
+# Material: suporte para aulas
+# Data: 10/04/2023
+# Rio de Janeiro/RJ - Brasil
+# Sistema Operacional: Linux Debian
+########################################
+
+## virar usuário root
+su -    # ou "sudo su -" dependendo da configuração do Linux
+
+# atualizar
+apt-get update
+
+## Os comandos para remover e instalar o banco de dados são os seguintes: 
+apt-get install sqlite3 -y 
+
+## verificar a versão e ver se está funcionando:
+sqlite3 --version
+
+## Depois, criar um banco de dados (BD) no arquivo teste.db:
+sqlite3 teste.db # em seguida orá aárecer o prompt do sqlite3, que é "sqlite> ".
+
+# cria uma tabela:
+CREATE TABLE curso(id integer NOT NULL, name text NOT NULL, descricao text);
+insert into curso values (1, "Java", "Curso de Java ....");
+select * from curso;
+crtl+d # sair do sqlite3.
+
+# testar atualização:
+sqlite3 teste.db
+UPDATE curso SET desc = "xpto" WHERE id=1;
+select * from curso;
+crtl+d # sair do sqlite3.
+
+# adicionar coluna
+sqlite3 teste.db
+ALTER TABLE curso ADD COLUMN sala integer;
+select * from curso;
+UPDATE curso SET sala = 21 WHERE id=1;
+select * from curso;
+crtl+d # sair do sqlite3.
+
+# testar remoção
+sqlite3 teste.db
+select * from curso;
+insert into curso values (2, "JS", "Curso de JS", 99);
+select * from curso;
+DELETE FROM curso WHERE sala = 99;
+select * from curso;
+crtl+d # sair do sqlite3.
+
+
+########### Testando o banco de dados escola:
+CREATE TABLE cidades (  nome varchar(80), sigla varchar(2), DDD varchar(3) );
+INSERT INTO cidades VALUES ('Rio de Janeiro', 'RJ', '021');
+INSERT INTO cidades VALUES ('Sao Paulo', 'SP', '011');
+INSERT INTO cidades VALUES ('Minas Gerais', 'MG', '031');
+INSERT INTO cidades VALUES ('Minha cidade', 'RJ', '0XX');
+SELECT * FROM cidades;
+
+
+## apêndice:
+root@debian:/tmp# ls -l teste.db
+-rw-r--r-- 1 root root 16384 abr 10 12:46 teste.db
+root@debian:/tmp# od -c teste.db
+0000000   S   Q   L   i   t   e       f   o   r   m   a   t       3  \0
+0000020 020  \0 001 001  \0   @          \0  \0  \0  \r  \0  \0  \0 004
+0000040  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0 004  \0  \0  \0 004
+0000060  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0 001  \0  \0  \0  \0
+0000100  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0000120  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \r
+0000140  \0   .   K 221  \r 017 240  \0 003 016   _  \0 016   _ 017   6
+0000160 016 315  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0000200  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+*
+0007120  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0   l
+0007140 001  \a 027 027 027 001 201   7   t   a   b   l   e   c   u   r
+0007160   s   o   c   u   r   s   o 002   C   R   E   A   T   E       T
+0007200   A   B   L   E       c   u   r   s   o   (   i   d       i   n
+0007220   t   e   g   e   r       n   o   t           n   u   l   l   ,
+0007240       n   a   m   e       t   e   x   t       n   o   t       n
+0007260   u   l   l   ,       d   e   s   c       t   e   x   t   ,
+0007300   s   a   l   a       i   n   t   e   g   e   r   )   g 003  \a
+0007320 027 033 033 001 201   %   t   a   b   l   e   c   i   d   a   d
+0007340   e   s   c   i   d   a   d   e   s 004   C   R   E   A   T   E
+0007360       T   A   B   L   E       c   i   d   a   d   e   s       (
+0007400           n   o   m   e       v   a   r   c   h   a   r   (   8
+0007420   0   )   ,       s   i   g   l   a       v   a   r   c   h   a
+0007440   r   (   2   )   ,       D   D   D       v   a   r   c   h   a
+0007460   r   (   3   )       )   h 002  \a 027 031 031 001 201   +   t
+0007500   a   b   l   e   c   u   r   s   o   2   c   u   r   s   o   2
+0007520 003   C   R   E   A   T   E       T   A   B   L   E       c   u
+0007540   r   s   o   2   (   i   d       i   n   t   e   g   e   r
+0007560   n   o   t           n   u   l   l   ,       n   a   m   e
+0007600   v   a   r   c   h   a   r   (   2   0   )       n   o   t
+0007620   n   u   l   l   ,       d   e   s   c       t   e   x   t   )
+0007640  \0  \0  \0   `  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0007660  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+*
+0010000  \r  \0  \0  \0 001 017 360  \0 017 360 017 332  \0  \0  \0  \0
+0010020  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+*
+0017720  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0 026  \0  \0
+0017740  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0017760 016 001 005  \t 025 025 001   j   a   v   a   x   p   t   o 025
+0020000  \r  \0  \0  \0  \0 020  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+0020020  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+*
+0030000  \r  \0  \0  \0 004 017 245  \0 017 347 017 323 017 274 017 245
+0030020  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
+*
+0037640  \0  \0  \0  \0  \0 025 004 004   % 021 023   M   i   n   h   a
+0037660       c   i   d   a   d   e   R   J   0   X   X 025 003 004   %
+0037700 021 023   M   i   n   a   s       G   e   r   a   i   s   M   G
+0037720   0   3   1 022 002 004 037 021 023   S   a   o       P   a   u
+0037740   l   o   S   P   0   1   1 027 001 004   ) 021 023   R   i   o
+0037760       d   e       J   a   n   e   i   r   o   R   J   0   2   1
+0040000
+
+
+
+
